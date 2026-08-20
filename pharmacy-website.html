@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صيدلية د. أحمد ماهر</title>
+<style>
+  :root{
+    --teal:#0f7a82;
+    --teal-dark:#0a5960;
+    --green:#1a9e5c;
+    --bg:#f6f9f9;
+    --card:#ffffff;
+    --ink:#1c2b2b;
+    --muted:#5f7574;
+    --border:#e2e9e8;
+    --danger:#c0392b;
+    --wa:#25D366;
+    --radius:14px;
+    --shadow: 0 2px 10px rgba(15,122,130,0.08);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Tahoma','Cairo',Arial,sans-serif;background:var(--bg);color:var(--ink);}
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ===== Header ===== */
+  header{
+    background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+    color:#fff;
+    position:sticky;top:0;z-index:50;
+    box-shadow:var(--shadow);
+  }
+  .top-bar{
+    max-width:1100px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 16px;gap:12px;flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-logo{
+    width:46px;height:46px;border-radius:12px;background:#fff;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .brand-logo svg{width:30px;height:30px;}
+  .brand-name{font-weight:700;font-size:1.15rem;line-height:1.2;}
+  .brand-sub{font-size:0.75rem;opacity:0.85;margin-top:2px;}
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .lang-toggle{
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.4);
+    color:#fff;padding:7px 14px;border-radius:20px;
+    font-size:0.85rem;font-weight:600;
+  }
+  .lang-toggle:hover{background:rgba(255,255,255,0.28);}
+  .cart-btn{
+    background:#fff;color:var(--teal-dark);
+    padding:8px 16px;border-radius:20px;border:none;
+    font-weight:700;font-size:0.85rem;display:flex;align-items:center;gap:6px;
+    position:relative;
+  }
+  .cart-count{
+    background:var(--danger);color:#fff;border-radius:50%;
+    width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+    font-size:0.7rem;position:absolute;top:-6px;inset-inline-end:-6px;
+  }
+
+  .search-bar-wrap{
+    max-width:1100px;margin:0 auto;padding:0 16px 14px;
+  }
+  .search-bar{
+    display:flex;align-items:center;background:#fff;border-radius:24px;
+    padding:10px 16px;box-shadow:var(--shadow);
+  }
+  .search-bar input{
+    border:none;outline:none;flex:1;font-size:0.95rem;background:transparent;color:var(--ink);
+  }
+  .search-bar svg{width:20px;height:20px;color:var(--muted);flex-shrink:0;}
+
+  /* ===== Branch strip ===== */
+  .branch-strip{
+    max-width:1100px;margin:0 auto;padding:14px 16px 0;
+    display:flex;gap:12px;flex-wrap:wrap;
+  }
+  .branch-card{
+    flex:1 1 260px;background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);padding:12px 14px;cursor:pointer;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .branch-card.active{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,122,130,0.12);}
+  .branch-card h4{margin:0 0 4px;font-size:0.9rem;color:var(--teal-dark);}
+  .branch-card p{margin:0;font-size:0.8rem;color:var(--muted);line-height:1.5;}
+  .branch-card .radio{
+    display:inline-block;width:14px;height:14px;border-radius:50%;
+    border:2px solid var(--teal);margin-inline-end:6px;position:relative;top:2px;
+  }
+  .branch-card.active .radio{background:var(--teal);}
+
+  /* ===== Categories ===== */
+  .cat-scroll{
+    max-width:1100px;margin:0 auto;padding:16px 16px 4px;
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+  }
+  .cat-scroll::-webkit-scrollbar{display:none;}
+  .cat-chip{
+    flex-shrink:0;background:#fff;border:1px solid var(--border);
+    padding:8px 16px;border-radius:20px;font-size:0.82rem;font-weight:600;color:var(--muted);
+    white-space:nowrap;
+  }
+  .cat-chip.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  /* ===== Product grid ===== */
+  main{max-width:1100px;margin:0 auto;padding:16px;}
+  .section-title{font-size:1rem;font-weight:700;margin:18px 0 10px;color:var(--teal-dark);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+  .product-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);
+    position:relative;
+  }
+  .product-icon{
+    width:100%;height:100px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--border);
+    transition:transform .15s;
+  }
+  .product-card:hover .product-icon{transform:scale(1.03);}
+  .product-card{transition:box-shadow .15s, transform .15s;}
+  .product-card:hover{box-shadow:0 6px 18px rgba(15,122,130,0.14);transform:translateY(-2px);}
+  .product-name{font-size:0.88rem;font-weight:700;line-height:1.3;min-height:2.3em;}
+  .product-meta{font-size:0.72rem;color:var(--muted);}
+  .stock-badge{
+    font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:10px;
+    display:inline-block;width:fit-content;
+  }
+  .stock-yes{background:#e5f6ec;color:var(--green);}
+  .stock-no{background:#fbe9e7;color:var(--danger);}
+  .rx-badge{background:#fff4e0;color:#a8710a;}
+  .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
+  .price{font-weight:800;color:var(--teal-dark);font-size:0.95rem;}
+  .add-btn{
+    background:var(--teal);color:#fff;border:none;border-radius:8px;
+    padding:7px 10px;font-size:0.78rem;font-weight:700;
+  }
+  .add-btn:disabled{background:#cfd8d7;cursor:not-allowed;}
+  .qty-row{display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+  .qty-btn{
+    width:26px;height:26px;border-radius:6px;border:1px solid var(--border);
+    background:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .no-results{text-align:center;padding:40px 16px;color:var(--muted);}
+
+  /* ===== Nav ===== */
+  .site-nav{
+    background:#fff;border-bottom:1px solid var(--border);
+  }
+  .site-nav-inner{
+    max-width:1100px;margin:0 auto;padding:10px 16px;
+    display:flex;gap:22px;overflow-x:auto;
+  }
+  .nav-link{
+    background:none;border:none;outline:none;
+    font-size:0.85rem;font-weight:700;color:var(--muted);white-space:nowrap;
+    padding:4px 2px;border-bottom:2px solid transparent;
+    font-family:inherit;cursor:pointer;
+  }
+  .nav-link.active{color:var(--teal-dark);border-color:var(--teal);}
+
+  /* ===== Hero ===== */
+  .hero{
+    background:linear-gradient(135deg,var(--teal) 0%, var(--teal-dark) 100%);
+    color:#fff;padding:40px 16px 56px;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 85% 20%, rgba(255,255,255,0.12), transparent 55%);
+  }
+  .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+  .hero-inner h1{font-size:1.6rem;margin:0 0 10px;line-height:1.4;}
+  .hero-inner p{font-size:0.95rem;opacity:0.92;max-width:560px;line-height:1.7;margin:0 0 20px;}
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+  .hero-btn{
+    padding:12px 22px;border-radius:24px;font-weight:700;font-size:0.88rem;border:none;
+  }
+  .hero-btn.primary{background:#fff;color:var(--teal-dark);}
+  .hero-btn.secondary{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.5);}
+
+  .hero-search{
+    display:flex;align-items:center;background:#fff;border-radius:26px;
+    padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,0.15);max-width:520px;margin-bottom:20px;gap:8px;
+  }
+  .hero-search svg{width:20px;height:20px;color:var(--muted);flex-shrink:0;}
+  .hero-search input{border:none;outline:none;flex:1;font-size:0.92rem;background:transparent;color:var(--ink);font-family:inherit;min-width:0;}
+  .hero-search button{
+    background:var(--teal);color:#fff;border:none;border-radius:20px;padding:9px 18px;
+    font-weight:700;font-size:0.82rem;flex-shrink:0;font-family:inherit;
+  }
+  .hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .hero-badge{
+    background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.35);
+    border-radius:20px;padding:7px 14px;font-size:0.78rem;font-weight:600;
+  }
+
+  /* ===== Shop by category (home) ===== */
+  .cat-quick-section{max-width:1100px;margin:0 auto;padding:32px 16px 8px;}
+  .cat-quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;}
+  .cat-quick-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:14px 10px;text-align:center;box-shadow:var(--shadow);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .cat-quick-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(15,122,130,0.14);}
+  .cat-quick-icon{width:52px;height:52px;border-radius:14px;margin:0 auto 8px;overflow:hidden;}
+  .cat-quick-label{font-size:0.75rem;font-weight:700;color:var(--ink);line-height:1.4;}
+
+  /* ===== How it works (home) ===== */
+  .how-section{max-width:1100px;margin:0 auto;padding:28px 16px 40px;}
+  .how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+  .how-step{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px 16px;text-align:center;box-shadow:var(--shadow);position:relative;
+  }
+  .how-num{
+    position:absolute;top:-10px;inset-inline-start:16px;background:var(--teal);color:#fff;
+    width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:0.78rem;font-weight:800;
+  }
+  .how-icon{font-size:1.8rem;margin-bottom:8px;}
+  .how-step h4{margin:0 0 6px;font-size:0.92rem;color:var(--teal-dark);}
+  .how-step p{margin:0;font-size:0.8rem;color:var(--muted);line-height:1.6;}
+
+  /* ===== About ===== */
+  .about-section{max-width:1100px;margin:0 auto;padding:36px 16px;}
+  .about-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px;box-shadow:var(--shadow);display:flex;gap:24px;flex-wrap:wrap;align-items:center;
+  }
+  .about-text{flex:2 1 320px;}
+  .about-text h2{margin:0 0 10px;font-size:1.25rem;color:var(--teal-dark);}
+  .about-text p{margin:0;line-height:1.85;color:var(--ink);font-size:0.92rem;}
+  .about-stats{flex:1 1 200px;display:flex;flex-direction:column;gap:12px;}
+  .stat-box{background:var(--bg);border-radius:10px;padding:12px 14px;text-align:center;}
+  .stat-num{font-size:1.3rem;font-weight:800;color:var(--teal);}
+  .stat-label{font-size:0.72rem;color:var(--muted);}
+
+  /* ===== Offers/Campaign ===== */
+  .offers-section{max-width:1100px;margin:0 auto;padding:0 16px 36px;}
+  .offers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+  .offer-card{
+    border-radius:var(--radius);overflow:hidden;position:relative;min-height:150px;
+    display:flex;align-items:flex-end;padding:16px;color:#fff;
+    background-size:cover;background-position:center;
+  }
+  .offer-card::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(10,25,25,0.75), rgba(10,25,25,0.1));
+  }
+  .offer-card-content{position:relative;z-index:1;}
+  .offer-tag{
+    background:var(--danger);font-size:0.68rem;font-weight:700;padding:3px 10px;
+    border-radius:10px;display:inline-block;margin-bottom:6px;
+  }
+  .offer-title{font-weight:800;font-size:1rem;margin-bottom:2px;}
+  .offer-sub{font-size:0.78rem;opacity:0.9;}
+  .offer-1{background-color:#0f7a82;}
+  .offer-2{background-color:#1a9e5c;}
+  .offer-3{background-color:#a8710a;}
+  .offers-note{font-size:0.75rem;color:var(--muted);margin-top:10px;text-align:center;}
+
+  /* ===== Branch contact buttons ===== */
+  .branch-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .branch-action-btn{
+    flex:1;padding:8px 10px;border-radius:8px;font-size:0.75rem;font-weight:700;
+    text-align:center;border:none;
+  }
+  .branch-action-btn.wa{background:var(--wa);color:#fff;}
+  .branch-action-btn.call{background:var(--teal);color:#fff;}
+  .unverified-note{font-size:0.65rem;color:var(--danger);margin-top:6px;}
+
+  /* ===== Page switching (no URL hash / anchor dependency) ===== */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ===== Account drawer ===== */
+  .account-tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--bg);padding:4px;border-radius:10px;}
+  .account-tab{
+    flex:1;background:none;border:none;padding:9px 6px;border-radius:8px;
+    font-size:0.78rem;font-weight:700;color:var(--muted);font-family:inherit;cursor:pointer;
+  }
+  .account-tab.active{background:#fff;color:var(--teal-dark);box-shadow:var(--shadow);}
+  .account-panel{display:none;}
+  .account-panel.active{display:block;}
+  .account-hint{font-size:0.8rem;color:var(--muted);line-height:1.6;margin:0 0 14px;}
+  .form-label{display:block;font-size:0.78rem;font-weight:700;color:var(--ink);margin:10px 0 5px;}
+  .form-input{
+    width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;
+    font-size:0.88rem;font-family:inherit;color:var(--ink);background:#fff;resize:vertical;
+  }
+  .form-input:focus{outline:none;border-color:var(--teal);}
+  .account-submit{
+    width:100%;background:var(--teal);color:#fff;border:none;border-radius:10px;
+    padding:12px;font-weight:700;font-size:0.88rem;margin-top:16px;
+  }
+  .account-status{
+    margin-top:16px;background:#e5f6ec;color:var(--green);border-radius:10px;
+    padding:12px 14px;font-size:0.82rem;line-height:1.6;
+  }
+
+  /* ===== Cart drawer ===== */
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,20,20,0.4);
+    opacity:0;pointer-events:none;transition:opacity .2s;z-index:90;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+  .cart-drawer{
+    position:fixed;top:0;inset-inline-end:0;height:100%;width:min(400px,92vw);
+    background:#fff;z-index:100;transform:translateX(110%);transition:transform .25s;
+    display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,0.15);
+  }
+  html[dir="rtl"] .cart-drawer{transform:translateX(-110%);}
+  .cart-drawer.show{transform:translateX(0);}
+  html[dir="rtl"] .cart-drawer.show{transform:translateX(0);}
+  .cart-header{
+    padding:16px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .cart-header h3{margin:0;font-size:1.05rem;}
+  .close-btn{background:none;border:none;font-size:1.4rem;color:var(--muted);line-height:1;}
+  .cart-items{flex:1;overflow-y:auto;padding:12px 16px;}
+  .cart-item{
+    display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);align-items:center;
+  }
+  .cart-item-icon{width:44px;height:44px;border-radius:8px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);}
+  .cart-item-info{flex:1;min-width:0;}
+  .cart-item-name{font-size:0.85rem;font-weight:700;}
+  .cart-item-price{font-size:0.78rem;color:var(--muted);}
+  .remove-link{font-size:0.72rem;color:var(--danger);background:none;border:none;padding:0;margin-top:4px;}
+  .cart-empty{text-align:center;padding:60px 20px;color:var(--muted);}
+  .cart-footer{padding:16px;border-top:1px solid var(--border);}
+  .total-row{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;margin-bottom:12px;}
+  .wa-order-btn{
+    width:100%;background:var(--wa);color:#fff;border:none;padding:14px;border-radius:12px;
+    font-weight:700;font-size:0.95rem;display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .wa-order-btn:disabled{background:#cfd8d7;}
+  .branch-note{font-size:0.72rem;color:var(--muted);margin-top:8px;text-align:center;}
+
+  footer{
+    background:var(--teal-dark);color:#fff;margin-top:30px;padding:24px 16px;
+    text-align:center;font-size:0.82rem;
+  }
+  footer .foot-branches{max-width:700px;margin:0 auto 14px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;text-align:start;}
+  footer .foot-branches div{flex:1 1 260px;opacity:0.9;line-height:1.6;}
+  footer .foot-note{opacity:0.65;margin-top:10px;}
+
+  @media (max-width:480px){
+    .brand-name{font-size:1rem;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 8 C25 8 10 28 10 50 C10 72 28 90 50 92 C40 82 34 68 40 55 C46 42 62 40 70 28 C74 20 68 8 50 8 Z" fill="#0f7a82"/>
+          <path d="M20 55 C20 75 35 88 50 90 C42 80 40 65 48 55 C56 45 68 42 72 32" stroke="#1a9e5c" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name" data-i18n="pharmacyName">صيدلية د. أحمد ماهر</div>
+        <div class="brand-sub" data-i18n="tagline">تحقق من توفر أدويتك واطلبها الآن</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle">English</button>
+      <button class="cart-btn" id="accountBtn">
+        <span>👤</span>
+        <span id="accountBtnLabel" data-i18n="accountGuestLabel">تسجيل الدخول</span>
+      </button>
+      <button class="cart-btn" id="cartBtn">
+        <span>🛒</span>
+        <span data-i18n="cart">السلة</span>
+        <span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+    </div>
+  </div>
+  <div class="search-bar-wrap">
+    <div class="search-bar">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث عن دواء أو منتج بالعربي أو بالإنجليزي...">
+    </div>
+  </div>
+</header>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <button type="button" class="nav-link" data-nav="home" data-i18n="navHome">الرئيسية</button>
+    <button type="button" class="nav-link" data-nav="about" data-i18n="navAbout">عن الصيدلية</button>
+    <button type="button" class="nav-link" data-nav="offers" data-i18n="navOffers">العروض</button>
+    <button type="button" class="nav-link" data-nav="shop" data-i18n="navShop">تصفح المنتجات</button>
+    <button type="button" class="nav-link" data-nav="branches" data-i18n="navBranches">الفروع والتواصل</button>
+  </div>
+</nav>
+
+<div class="page active" id="home">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 data-i18n="heroTitle">صيدليتك الموثوقة، أونلاين الآن</h1>
+      <p data-i18n="heroText">تصفّح آلاف الأدوية والمستلزمات، اطمئن على توفرها، واطلبها بضغطة زر تصلنا مباشرة على واتساب.</p>
+
+      <div class="hero-search">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="heroSearchInput" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث عن دواء أو منتج بالعربي أو بالإنجليزي...">
+        <button type="button" id="heroSearchBtn" data-i18n="searchBtn">بحث</button>
+      </div>
+
+      <div class="hero-cta">
+        <button class="hero-btn primary" id="heroShopBtn" data-i18n="heroCtaShop">تصفح المنتجات الآن</button>
+        <button class="hero-btn secondary" id="heroBranchesBtn" data-i18n="heroCtaBranches">فروعنا وتواصل معنا</button>
+      </div>
+
+      <div class="hero-badges">
+        <span class="hero-badge">🕐 <span data-i18n="badge247">خدمة على مدار الساعة</span></span>
+        <span class="hero-badge">📍 <span data-i18n="badge2branches">فرعان يخدمانك</span></span>
+        <span class="hero-badge">📲 <span data-i18n="badgeWa">اطلب مباشرة عبر واتساب</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cat-quick-section">
+    <div class="cat-quick-inner">
+      <div class="section-title" style="margin:0 0 12px;" data-i18n="shopByCategory">تسوق حسب القسم</div>
+      <div class="cat-quick-grid" id="catQuickGrid"></div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="how-inner">
+      <div class="section-title" style="margin:0 0 16px;" data-i18n="howItWorks">كيف تطلب؟</div>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-num">1</div>
+          <div class="how-icon">🔍</div>
+          <h4 data-i18n="howStep1Title">تصفّح وابحث</h4>
+          <p data-i18n="howStep1Text">تصفح الأقسام أو ابحث عن الدواء بالعربي أو الإنجليزي واطمئن على توفره</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">2</div>
+          <div class="how-icon">🛒</div>
+          <h4 data-i18n="howStep2Title">أضف إلى السلة</h4>
+          <p data-i18n="howStep2Text">اختر ما تحتاجه وأضفه إلى السلة، وحدد الفرع الأقرب إليك</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">3</div>
+          <div class="how-icon">📲</div>
+          <h4 data-i18n="howStep3Title">أرسل الطلب</h4>
+          <p data-i18n="howStep3Text">اضغط زر واتساب وسيصل طلبك مباشرة لفريق الصيدلية للتأكيد والتوصيل</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<section class="about-section page" id="about">
+  <div class="about-card">
+    <div class="about-text">
+      <h2 data-i18n="aboutTitle">عن صيدلية د. أحمد ماهر</h2>
+      <p data-i18n="aboutText">صيدلية د. أحمد ماهر واحدة من أكبر وأقوى الصيدليات التي تخدم آلاف العملاء على مدار الساعة، بفضل فريق متميز من الصيادلة المؤهلين والمدربين. نحرص على توفير أوسع تشكيلة من الأدوية والمستلزمات الطبية ومستحضرات العناية الشخصية بأسعار تنافسية وجودة موثوقة.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box"><div class="stat-num" dir="ltr" data-i18n="stat1Num">2</div><div class="stat-label" data-i18n="stat1Label">فروع تخدمك</div></div>
+      <div class="stat-box"><div class="stat-num" dir="ltr" data-i18n="stat2Num">24/7</div><div class="stat-label" data-i18n="stat2Label">خدمة على مدار الساعة</div></div>
+      <div class="stat-box"><div class="stat-num" dir="ltr" data-i18n="stat3Num">+1000</div><div class="stat-label" data-i18n="stat3Label">منتج ودواء</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="offers-section page" id="offers">
+  <div class="section-title" data-i18n="offersTitle" style="margin-top:0;">أحدث العروض والحملات</div>
+  <div class="offers-grid">
+    <div class="offer-card offer-1">
+      <div class="offer-card-content">
+        <span class="offer-tag" data-i18n="offerTagDiscount">خصم</span>
+        <div class="offer-title" data-i18n="offer1Title">عروض العناية الشخصية</div>
+        <div class="offer-sub" data-i18n="offer1Sub">خصومات على منتجات العناية بالبشرة والشعر</div>
+      </div>
+    </div>
+    <div class="offer-card offer-2">
+      <div class="offer-card-content">
+        <span class="offer-tag" data-i18n="offerTagNew">جديد</span>
+        <div class="offer-title" data-i18n="offer2Title">تشكيلة العطور الجديدة</div>
+        <div class="offer-sub" data-i18n="offer2Sub">أحدث العطور والبخاخات متوفرة الآن</div>
+      </div>
+    </div>
+    <div class="offer-card offer-3">
+      <div class="offer-card-content">
+        <span class="offer-tag" data-i18n="offerTagOffer">عرض خاص</span>
+        <div class="offer-title" data-i18n="offer3Title">عروض الفيتامينات والمكملات</div>
+        <div class="offer-sub" data-i18n="offer3Sub">اشترِ اثنين واحصل على خصم إضافي</div>
+      </div>
+    </div>
+  </div>
+  <div class="offers-note" data-i18n="offersNote">هذه عروض توضيحية نموذجية — سيتم استبدالها بالعروض والحملات الفعلية للصيدلية</div>
+</section>
+
+<div class="page" id="shop">
+  <div class="section-title" style="max-width:1100px;margin:0 auto;padding:0 16px;" data-i18n="navShop">تصفح المنتجات</div>
+  <div class="branch-strip" id="branchStrip"></div>
+
+  <div class="cat-scroll" id="catScroll"></div>
+
+  <main>
+    <div class="grid" id="productGrid"></div>
+    <div class="no-results" id="noResults" style="display:none;" data-i18n="noResults">لم يتم العثور على نتائج مطابقة</div>
+  </main>
+</div>
+
+<section class="page" id="branches" style="max-width:1100px;margin:0 auto;padding:20px 16px 0;">
+  <div class="section-title" data-i18n="navBranches" style="margin-top:0;">الفروع والتواصل</div>
+</section>
+
+<footer>
+  <div class="foot-branches" id="footBranches"></div>
+  <div class="foot-note" data-i18n="footNote">هذا موقع تجريبي لعرض الفكرة — البيانات والأسعار الظاهرة هنا نموذجية وليست فعلية</div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3 data-i18n="yourCart">سلتك</h3>
+    <button class="close-btn" id="closeCart">×</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="total-row" style="font-weight:600;font-size:0.85rem;color:var(--muted);margin-bottom:4px;">
+      <span data-i18n="subtotal">مجموع المنتجات</span>
+      <span id="cartSubtotal">0 <span data-i18n="egp">ج.م</span></span>
+    </div>
+    <div class="total-row" style="font-weight:600;font-size:0.85rem;color:var(--muted);margin-bottom:4px;">
+      <span data-i18n="waMsgDelivery">رسوم التوصيل</span>
+      <span id="cartDeliveryFee">0 <span data-i18n="egp">ج.م</span></span>
+    </div>
+    <div class="total-row">
+      <span data-i18n="total">الإجمالي</span>
+      <span id="cartTotal">0 <span data-i18n="egp">ج.م</span></span>
+    </div>
+    <div id="accountSummary" style="font-size:0.75rem;color:var(--muted);margin-bottom:10px;"></div>
+    <button class="wa-order-btn" id="waOrderBtn" disabled>
+      <span>📲</span>
+      <span data-i18n="orderViaWhatsapp">إرسال الطلب عبر واتساب</span>
+    </button>
+    <div class="branch-note" id="branchNote"></div>
+  </div>
+</div>
+
+<div class="cart-drawer" id="accountDrawer">
+  <div class="cart-header">
+    <h3 data-i18n="accountTitle">بيانات التوصيل</h3>
+    <button class="close-btn" id="closeAccount">×</button>
+  </div>
+  <div class="cart-items" id="accountBody">
+    <div class="account-tabs">
+      <button type="button" class="account-tab active" data-tab="code" data-i18n="tabCode">لدي كود</button>
+      <button type="button" class="account-tab" data-tab="new" data-i18n="tabNew">عميل جديد</button>
+      <button type="button" class="account-tab" data-tab="guest" data-i18n="tabGuest">ضيف</button>
+    </div>
+
+    <div class="account-panel active" id="panel-code">
+      <p class="account-hint" data-i18n="codeHint">إذا كنت تطلب من قبل عبر واتساب أو الهاتف، أدخل كودك المسجل لدى الصيدلية.</p>
+      <label class="form-label" data-i18n="codeLabel">كود العميل</label>
+      <input type="text" id="inputCode" class="form-input" inputmode="numeric" placeholder="مثال: 5255">
+      <button type="button" class="account-submit" id="submitCode" data-i18n="confirmCode">تأكيد الكود</button>
+    </div>
+
+    <div class="account-panel" id="panel-new">
+      <p class="account-hint" data-i18n="newHint">لا تملك كوداً بعد؟ أدخل بياناتك وسنولّد لك كوداً مؤقتاً — سيقوم فريق الصيدلية بتأكيده وتسجيلك رسمياً عند استلام طلبك.</p>
+      <label class="form-label" data-i18n="nameLabel">الاسم</label>
+      <input type="text" id="inputName" class="form-input">
+      <label class="form-label" data-i18n="phoneLabel">رقم الهاتف</label>
+      <input type="tel" id="inputPhone" class="form-input" dir="ltr">
+      <label class="form-label" data-i18n="addressLabel">العنوان بالتفصيل</label>
+      <textarea id="inputNewAddress" class="form-input" rows="3"></textarea>
+      <button type="button" class="account-submit" id="submitNew" data-i18n="createAccount">إنشاء الحساب والحصول على كود</button>
+    </div>
+
+    <div class="account-panel" id="panel-guest">
+      <p class="account-hint" data-i18n="guestHint">يمكنك الطلب كضيف بدون إنشاء حساب — فقط أدخل عنوان التوصيل.</p>
+      <label class="form-label" data-i18n="addressLabel">العنوان بالتفصيل</label>
+      <textarea id="inputGuestAddress" class="form-input" rows="3"></textarea>
+      <button type="button" class="account-submit" id="submitGuest" data-i18n="continueGuest">المتابعة كضيف</button>
+    </div>
+
+    <div class="account-status" id="accountStatus" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+/* ================= i18n ================= */
+const i18n = {
+  ar: {
+    pharmacyName: "صيدلية د. أحمد ماهر",
+    tagline: "تحقق من توفر أدويتك واطلبها الآن",
+    cart: "السلة",
+    searchPlaceholder: "ابحث عن دواء أو منتج بالعربي أو بالإنجليزي...",
+    searchBtn: "بحث",
+    badge247: "خدمة على مدار الساعة",
+    badge2branches: "فرعان يخدمانك",
+    badgeWa: "اطلب مباشرة عبر واتساب",
+    shopByCategory: "تسوق حسب القسم",
+    howItWorks: "كيف تطلب؟",
+    howStep1Title: "تصفّح وابحث",
+    howStep1Text: "تصفح الأقسام أو ابحث عن الدواء بالعربي أو الإنجليزي واطمئن على توفره",
+    howStep2Title: "أضف إلى السلة",
+    howStep2Text: "اختر ما تحتاجه وأضفه إلى السلة، وحدد الفرع الأقرب إليك",
+    howStep3Title: "أرسل الطلب",
+    howStep3Text: "اضغط زر واتساب وسيصل طلبك مباشرة لفريق الصيدلية للتأكيد والتوصيل",
+    noResults: "لم يتم العثور على نتائج مطابقة",
+    yourCart: "سلتك",
+    total: "الإجمالي",
+    subtotal: "مجموع المنتجات",
+    egp: "ج.م",
+    orderViaWhatsapp: "إرسال الطلب عبر واتساب",
+    footNote: "هذا موقع تجريبي لعرض الفكرة — البيانات والأسعار الظاهرة هنا نموذجية وليست فعلية",
+    inStock: "متوفر",
+    outOfStock: "غير متوفر",
+    rxRequired: "يتطلب روشتة",
+    add: "إضافة",
+    visitPharmacy: "يرجى إحضار الروشتة",
+    cartEmpty: "سلتك فارغة",
+    remove: "إزالة",
+    selectBranchFirst: "اختر الفرع لإرسال الطلب",
+    all: "الكل",
+    branch1Name: "فرع 6 أكتوبر",
+    branch1Addr: "مدينة 6 أكتوبر، الحي الأول، 193، أمام معهد الجصري الأزهري",
+    branch1Phone: "0109 290 1444",
+    branch2Name: "فرع حدائق أكتوبر",
+    branch2Addr: "حدائق أكتوبر، الحي الأول، جاردنز مول 04",
+    branch2Phone: "010 700 555 92",
+    waMsgIntro: "مرحباً، أرغب في طلب التالي من",
+    waMsgTotal: "الإجمالي التقريبي",
+    waMsgConfirm: "برجاء تأكيد التوفر والسعر. شكراً لكم",
+    navHome: "الرئيسية",
+    navAbout: "عن الصيدلية",
+    navOffers: "العروض",
+    navShop: "تصفح المنتجات",
+    navBranches: "الفروع والتواصل",
+    heroTitle: "صيدليتك الموثوقة، أونلاين الآن",
+    heroText: "تصفّح آلاف الأدوية والمستلزمات، اطمئن على توفرها، واطلبها بضغطة زر تصلنا مباشرة على واتساب.",
+    heroCtaShop: "تصفح المنتجات الآن",
+    heroCtaBranches: "فروعنا وتواصل معنا",
+    aboutTitle: "عن صيدلية د. أحمد ماهر",
+    aboutText: "صيدلية د. أحمد ماهر واحدة من أكبر وأقوى الصيدليات التي تخدم آلاف العملاء على مدار الساعة، بفضل فريق متميز من الصيادلة المؤهلين والمدربين. نحرص على توفير أوسع تشكيلة من الأدوية والمستلزمات الطبية ومستحضرات العناية الشخصية بأسعار تنافسية وجودة موثوقة.",
+    stat1Num: "2", stat1Label: "فروع تخدمك",
+    stat2Num: "24/7", stat2Label: "خدمة على مدار الساعة",
+    stat3Num: "+1000", stat3Label: "منتج ودواء",
+    offersTitle: "أحدث العروض والحملات",
+    offerTagDiscount: "خصم", offerTagNew: "جديد", offerTagOffer: "عرض خاص",
+    offer1Title: "عروض العناية الشخصية", offer1Sub: "خصومات على منتجات العناية بالبشرة والشعر",
+    offer2Title: "تشكيلة العطور الجديدة", offer2Sub: "أحدث العطور والبخاخات متوفرة الآن",
+    offer3Title: "عروض الفيتامينات والمكملات", offer3Sub: "اشترِ اثنين واحصل على خصم إضافي",
+    offersNote: "هذه عروض توضيحية نموذجية — سيتم استبدالها بالعروض والحملات الفعلية للصيدلية",
+    orderWhatsapp: "اطلب عبر واتساب",
+    callBranch: "اتصل بالفرع",
+    unverifiedNumbers: "⚠ أرقام الفروع مبدئية — يرجى تأكيد أي رقم هو واتساب وأيهما للاتصال فقط",
+    accountGuestLabel: "تسجيل الدخول",
+    accountTitle: "بيانات التوصيل",
+    tabCode: "لدي كود",
+    tabNew: "عميل جديد",
+    tabGuest: "ضيف",
+    codeHint: "إذا كنت تطلب من قبل عبر واتساب أو الهاتف، أدخل كودك المسجل لدى الصيدلية.",
+    codeLabel: "كود العميل",
+    confirmCode: "تأكيد الكود",
+    newHint: "لا تملك كوداً بعد؟ أدخل بياناتك وسنولّد لك كوداً مؤقتاً — سيقوم فريق الصيدلية بتأكيده وتسجيلك رسمياً عند استلام طلبك.",
+    nameLabel: "الاسم",
+    phoneLabel: "رقم الهاتف",
+    addressLabel: "العنوان بالتفصيل",
+    createAccount: "إنشاء الحساب والحصول على كود",
+    guestHint: "يمكنك الطلب كضيف بدون إنشاء حساب — فقط أدخل عنوان التوصيل.",
+    continueGuest: "المتابعة كضيف",
+    fillRequiredFields: "يرجى تعبئة جميع الحقول المطلوبة",
+    statusCodeSet: "جاري الطلب بكود العميل",
+    statusNewSet: "تم إنشاء كودك المؤقت",
+    statusNewNote: "سيتم تأكيد الكود وتسجيلك رسمياً عند استلام الصيدلية لطلبك",
+    statusGuestSet: "تم حفظ عنوان التوصيل — جاري الطلب كضيف",
+    accountLabelCode: "كود",
+    accountLabelGuest: "ضيف",
+    needInfoFirst: "يرجى إدخال بيانات التوصيل أولاً قبل إرسال الطلب",
+    waMsgCustomerCode: "كود العميل",
+    waMsgNewCustomer: "عميل جديد",
+    waMsgName: "الاسم",
+    waMsgPhone: "الهاتف",
+    waMsgAddress: "العنوان",
+    waMsgProvisionalCode: "كود مؤقت (يرجى التأكيد والتسجيل)",
+    waMsgGuestLabel: "طلب ضيف",
+    waMsgDelivery: "رسوم التوصيل",
+    waMsgFinalTotal: "الإجمالي شامل التوصيل"
+  },
+  en: {
+    pharmacyName: "Dr. Ahmed Maher Pharmacy",
+    tagline: "Check medicine availability & order instantly",
+    cart: "Cart",
+    searchPlaceholder: "Search for a medicine or product in Arabic or English...",
+    searchBtn: "Search",
+    badge247: "Round-the-clock service",
+    badge2branches: "Two branches serving you",
+    badgeWa: "Order directly via WhatsApp",
+    shopByCategory: "Shop by Category",
+    howItWorks: "How It Works",
+    howStep1Title: "Browse & Search",
+    howStep1Text: "Explore categories or search for a medicine in Arabic or English and check what's in stock",
+    howStep2Title: "Add to Cart",
+    howStep2Text: "Pick what you need and add it to your cart, then choose your nearest branch",
+    howStep3Title: "Send Your Order",
+    howStep3Text: "Tap the WhatsApp button and your order goes straight to the pharmacy team for confirmation and delivery",
+    noResults: "No matching results found",
+    yourCart: "Your Cart",
+    total: "Total",
+    subtotal: "Items Subtotal",
+    egp: "EGP",
+    orderViaWhatsapp: "Send Order via WhatsApp",
+    footNote: "This is a demo website to showcase the concept — prices and data shown are sample placeholders, not real.",
+    inStock: "In Stock",
+    outOfStock: "Out of Stock",
+    rxRequired: "Prescription required",
+    add: "Add",
+    visitPharmacy: "Please bring prescription",
+    cartEmpty: "Your cart is empty",
+    remove: "Remove",
+    selectBranchFirst: "Select a branch to send your order",
+    all: "All",
+    branch1Name: "6th of October Branch",
+    branch1Addr: "6th of October City, Al Hai Al Awal, 193, in front of Al-Gasry Al-Azhari Institute",
+    branch1Phone: "0109 290 1444",
+    branch2Name: "Hadayek October Branch",
+    branch2Addr: "Hadayek October, Al Hai Al Awal, Gardenz Mall 04",
+    branch2Phone: "010 700 555 92",
+    waMsgIntro: "Hi, I'd like to order the following from",
+    waMsgTotal: "Approximate total",
+    waMsgConfirm: "Please confirm availability and price. Thank you.",
+    navHome: "Home",
+    navAbout: "About Us",
+    navOffers: "Offers",
+    navShop: "Browse Products",
+    navBranches: "Branches & Contact",
+    heroTitle: "Your Trusted Pharmacy, Now Online",
+    heroText: "Browse thousands of medicines and supplies, check what's in stock, and order in one tap — straight to our WhatsApp.",
+    heroCtaShop: "Browse Products Now",
+    heroCtaBranches: "Our Branches & Contact",
+    aboutTitle: "About Dr. Ahmed Maher Pharmacy",
+    aboutText: "Dr. Ahmed Maher Pharmacy is one of the largest and strongest pharmacies, serving thousands of customers around the clock with a distinguished team of qualified and trained pharmacists. We offer one of the widest ranges of medicines, medical supplies, and personal care products at competitive prices and reliable quality.",
+    stat1Num: "2", stat1Label: "Branches serving you",
+    stat2Num: "24/7", stat2Label: "Round-the-clock service",
+    stat3Num: "1000+", stat3Label: "Products & medicines",
+    offersTitle: "Latest Offers & Campaigns",
+    offerTagDiscount: "Discount", offerTagNew: "New", offerTagOffer: "Special Offer",
+    offer1Title: "Personal Care Deals", offer1Sub: "Discounts on skin & hair care products",
+    offer2Title: "New Fragrance Collection", offer2Sub: "Latest perfumes & body sprays now available",
+    offer3Title: "Vitamins & Supplements Offer", offer3Sub: "Buy two, get an extra discount",
+    offersNote: "These are sample placeholder offers — will be replaced with the pharmacy's real campaigns and promotions",
+    orderWhatsapp: "Order via WhatsApp",
+    callBranch: "Call Branch",
+    unverifiedNumbers: "⚠ Branch numbers below are placeholders — please confirm which number is WhatsApp vs call-only",
+    accountGuestLabel: "Log In",
+    accountTitle: "Delivery Details",
+    tabCode: "I Have a Code",
+    tabNew: "New Customer",
+    tabGuest: "Guest",
+    codeHint: "If you've ordered before via WhatsApp or phone, enter the code registered with the pharmacy.",
+    codeLabel: "Customer Code",
+    confirmCode: "Confirm Code",
+    newHint: "Don't have a code yet? Enter your details and we'll generate a temporary code — the pharmacy team will confirm it and register you officially when they receive your order.",
+    nameLabel: "Name",
+    phoneLabel: "Phone Number",
+    addressLabel: "Full Delivery Address",
+    createAccount: "Create Account & Get a Code",
+    guestHint: "You can order as a guest without creating an account — just enter your delivery address.",
+    continueGuest: "Continue as Guest",
+    fillRequiredFields: "Please fill in all required fields",
+    statusCodeSet: "Ordering with customer code",
+    statusNewSet: "Your temporary code has been created",
+    statusNewNote: "This code will be confirmed and officially registered once the pharmacy receives your order",
+    statusGuestSet: "Delivery address saved — ordering as guest",
+    accountLabelCode: "Code",
+    accountLabelGuest: "Guest",
+    needInfoFirst: "Please enter your delivery details first before sending the order",
+    waMsgCustomerCode: "Customer code",
+    waMsgNewCustomer: "New customer",
+    waMsgName: "Name",
+    waMsgPhone: "Phone",
+    waMsgAddress: "Address",
+    waMsgProvisionalCode: "Provisional code (please confirm & register)",
+    waMsgGuestLabel: "Guest order",
+    waMsgDelivery: "Delivery fee",
+    waMsgFinalTotal: "Total incl. delivery"
+  }
+};
+
+let lang = 'ar';
+
+/* ================= Data ================= */
+// Categories: id, ar, en
+const categories = [
+  {id:'pain', ar:'مسكنات الألم', en:'Pain Relief'},
+  {id:'cold', ar:'نزلات البرد والإنفلونزا', en:'Cold & Flu'},
+  {id:'vit', ar:'فيتامينات ومكملات', en:'Vitamins & Supplements'},
+  {id:'baby', ar:'العناية بالطفل', en:'Baby Care'},
+  {id:'skin', ar:'العناية بالبشرة', en:'Skin Care'},
+  {id:'first', ar:'الإسعافات الأولية', en:'First Aid & Medical'},
+  {id:'personal', ar:'العناية الشخصية', en:'Personal Care'},
+];
+
+// Real product photos aren't available for this demo (no photos from the
+// pharmacy, and using scraped brand packaging images would be a copyright
+// problem on a real commercial site). Instead each category gets a clean
+// custom illustrated icon + color theme, standing in for a photo until real
+// product images can be sourced from the pharmacy itself.
+const CATEGORY_STYLE = {
+  pain:     { bg:'#e3f3f4', fg:'#0f7a82' },
+  cold:     { bg:'#e6f7ec', fg:'#1a9e5c' },
+  vit:      { bg:'#fdf2de', fg:'#b9800f' },
+  baby:     { bg:'#ebedfa', fg:'#5b62c9' },
+  skin:     { bg:'#fbeaef', fg:'#c0526b' },
+  first:    { bg:'#fbeae8', fg:'#c0392b' },
+  personal: { bg:'#e3f3f4', fg:'#0f7a82' },
+};
+const CATEGORY_ICON = {
+  pain: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><rect x="3" y="10" width="18" height="8" rx="4" transform="rotate(-25 12 14)"/><line x1="12" y1="9" x2="12" y2="19" transform="rotate(-25 12 14)"/></svg>`,
+  cold: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><path d="M12 3c3 4 5 7 5 10a5 5 0 0 1-10 0c0-3 2-6 5-10z"/></svg>`,
+  vit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>`,
+  baby: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><path d="M8 3h8v4H8z"/><path d="M7 7h10l-1 13a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1L7 7z"/><line x1="8.5" y1="12" x2="15.5" y2="12"/></svg>`,
+  skin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><rect x="5" y="8" width="14" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>`,
+  first: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><rect x="3" y="5" width="18" height="15" rx="2"/><line x1="12" y1="9" x2="12" y2="16"/><line x1="8.5" y1="12.5" x2="15.5" y2="12.5"/></svg>`,
+  personal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;display:block;"><path d="M9 3h6l1 4H8l1-4z"/><path d="M7 7h10l-1.2 12.5a2 2 0 0 1-2 1.5h-3.6a2 2 0 0 1-2-1.5L7 7z"/></svg>`,
+};
+function categoryVisual(catId, size){
+  const style = CATEGORY_STYLE[catId] || CATEGORY_STYLE.pain;
+  const icon = CATEGORY_ICON[catId] || CATEGORY_ICON.pain;
+  return `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:${style.bg};color:${style.fg};"><div style="width:${size};height:${size};">${icon}</div></div>`;
+}
+
+// Builds a Wikimedia Commons direct-file URL from a filename (as it appears
+// on the File: page) — Commons' stable Special:FilePath redirect, safe to
+// hotlink. All images used here are public-domain / Creative Commons.
+function wc(filename){
+  return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(filename.replace(/ /g, '_'));
+}
+
+// Real photo when available, otherwise the category icon. If the photo URL
+// ever fails to load (renamed/removed on Commons), attachImageFallbacks()
+// swaps it for the icon automatically — no broken-image icon ever shows.
+function productVisualHtml(p, size){
+  if(p.image){
+    // A consistent white, padded backdrop with object-fit:contain (not
+    // cover) makes photos of very different quality/framing/aspect ratio —
+    // inherent to crowd-sourced Commons photos — read as one uniform,
+    // catalog-style product grid instead of mismatched cropped snapshots.
+    return `<div class="product-photo-wrap" style="width:100%;height:100%;background:#ffffff;display:flex;align-items:center;justify-content:center;padding:10%;box-sizing:border-box;"><img class="product-photo" data-cat="${p.cat}" data-size="${size}" src="${wc(p.image)}" alt="" loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain;display:block;"></div>`;
+  }
+  return categoryVisual(p.cat, size);
+}
+
+// Attaches error-fallback listeners to any real <img> photos just inserted
+// into `container`. Done via addEventListener (not inline onerror=""),
+// since inline event-handler attributes get blocked in the sandboxed
+// preview the same way inline onclick="" did earlier.
+function attachImageFallbacks(container){
+  container.querySelectorAll('img.product-photo').forEach(img=>{
+    img.addEventListener('error', ()=>{
+      const wrapper = document.createElement('div');
+      wrapper.style.width = '100%';
+      wrapper.style.height = '100%';
+      wrapper.innerHTML = categoryVisual(img.getAttribute('data-cat'), img.getAttribute('data-size') || '38px');
+      // Replace the white padded backdrop (img's parent), not just the img
+      // itself, so a failed photo cleanly reverts to the full-bleed colored
+      // icon instead of leaving an empty white box around a tiny icon.
+      const target = img.closest('.product-photo-wrap') || img;
+      target.replaceWith(wrapper);
+    }, { once:true });
+  });
+}
+
+// Products: name_ar, name_en, cat, price, inStock, rx (prescription only), icon
+// image: filename of a real, correctly-branded photo on Wikimedia Commons
+// (public domain / Creative Commons — safe to use, no copyright issue).
+// Only added where I could confirm an actual matching product photo exists;
+// left out (falls back to the category icon) wherever the only results were
+// a *different* competing brand, since showing the wrong brand's box under
+// a specific product name would be misleading — e.g. no real "Nan 1" or
+// "La Roche-Posay" photo was found, so those still use the icon for now.
+const products = [
+  {ar:"بانادول", en:"Panadol", cat:'pain', price:25, stock:true, rx:false, icon:'💊'},
+  {ar:"بانادول اكسترا", en:"Panadol Extra", cat:'pain', price:32, stock:true, rx:false, icon:'💊'},
+  {ar:"بروفين 400", en:"Brufen 400 (Ibuprofen)", cat:'pain', price:28, stock:true, rx:false, icon:'💊'},
+  {ar:"فولتارين جل", en:"Voltaren Gel", cat:'pain', price:95, stock:false, rx:false, icon:'🧴'},
+  {ar:"كتافلام", en:"Cataflam", cat:'pain', price:40, stock:true, rx:false, icon:'💊'},
+  {ar:"استربسلز", en:"Strepsils", cat:'cold', price:35, stock:true, rx:false, icon:'🍬'},
+  {ar:"فيكس فيبوراب", en:"Vicks Vaporub", cat:'cold', price:60, stock:true, rx:false, icon:'🧴'},
+  {ar:"زيرتك", en:"Zyrtec (Antihistamine)", cat:'cold', price:45, stock:true, rx:false, icon:'💊'},
+  {ar:"كوديللار", en:"Coldrelief", cat:'cold', price:38, stock:false, rx:false, icon:'💊', arabicOnly:true},
+  {ar:"أوجمنتين 1 جم", en:"Augmentin 1g (Antibiotic)", cat:'cold', price:110, stock:true, rx:true, icon:'💊'},
+  {ar:"فيتامين سي 1000", en:"Vitamin C 1000mg", cat:'vit', price:85, stock:true, rx:false, icon:'🍊'},
+  {ar:"سنتروم ملتي فيتامين", en:"Centrum Multivitamin", cat:'vit', price:250, stock:true, rx:false, icon:'💊'},
+  {ar:"أوميغا 3", en:"Omega 3", cat:'vit', price:180, stock:true, rx:false, icon:'🐟'},
+  {ar:"فيتامين د3", en:"Vitamin D3", cat:'vit', price:120, stock:false, rx:false, icon:'☀️'},
+  {ar:"زنك بلس", en:"Zinc Plus", cat:'vit', price:95, stock:true, rx:false, icon:'💊'},
+  {ar:"حليب نان 1", en:"Nan 1 Baby Formula", cat:'baby', price:320, stock:true, rx:false, icon:'🍼'},
+  {ar:"بامبرز مقاس 3", en:"Pampers Size 3", cat:'baby', price:210, stock:true, rx:false, icon:'👶'},
+  {ar:"مناديل مبللة للأطفال", en:"Baby Wet Wipes", cat:'baby', price:45, stock:true, rx:false, icon:'🧻'},
+  {ar:"كريم حفاضات", en:"Diaper Rash Cream", cat:'baby', price:70, stock:false, rx:false, icon:'🧴'},
+  {ar:"كريم نيفيا", en:"Nivea Cream", cat:'skin', price:90, stock:true, rx:false, icon:'🧴'},
+  {ar:"غسول سيتافيل", en:"Cetaphil Cleanser", cat:'skin', price:280, stock:true, rx:false, icon:'🧴'},
+  {ar:"واقي شمس لاروش", en:"La Roche-Posay Sunscreen", cat:'skin', price:450, stock:true, rx:false, icon:'☀️'},
+  {ar:"كريم مرطب للوجه", en:"Facial Moisturizer", cat:'skin', price:150, stock:false, rx:false, icon:'🧴'},
+  {ar:"شاش وضمادات", en:"Gauze & Bandages", cat:'first', price:20, stock:true, rx:false, icon:'🩹'},
+  {ar:"بيتادين مطهر", en:"Betadine Antiseptic", cat:'first', price:35, stock:true, rx:false, icon:'🧴'},
+  {ar:"ترمومتر رقمي", en:"Digital Thermometer", cat:'first', price:110, stock:true, rx:false, icon:'🌡️'},
+  {ar:"جهاز ضغط الدم", en:"Blood Pressure Monitor", cat:'first', price:950, stock:true, rx:false, icon:'🩺'},
+  {ar:"معقم يدين", en:"Hand Sanitizer", cat:'first', price:30, stock:true, rx:false, icon:'🧴'},
+  {ar:"معجون أسنان سنسوداين", en:"Sensodyne Toothpaste", cat:'personal', price:95, stock:true, rx:false, icon:'🦷'},
+  {ar:"شامبو هيد اند شولدرز", en:"Head & Shoulders Shampoo", cat:'personal', price:140, stock:true, rx:false, icon:'🧴'},
+  {ar:"غسول فم ليسترين", en:"Listerine Mouthwash", cat:'personal', price:110, stock:false, rx:false, icon:'🧴'},
+];
+products.forEach((p,i)=> p.id = 'p'+i );
+
+// NOTE: which number is WhatsApp vs phone-only is unconfirmed — waPhone/callPhone
+// assignment below is a placeholder guess (first number = WhatsApp, second = call).
+// Swap if the pharmacy confirms otherwise.
+// deliveryFee is also a placeholder value — confirm the pharmacy's real fee (or
+// whether it varies by area/order size) before this goes live.
+const branches = [
+  {id:'b1', nameKey:'branch1Name', addrKey:'branch1Addr', waPhone:'201092901444', callPhone:'201098342343', waDisplay:'0109 290 1444', callDisplay:'0109 834 2343', deliveryFee:25},
+  {id:'b2', nameKey:'branch2Name', addrKey:'branch2Addr', waPhone:'201070055592', callPhone:'201070055579', waDisplay:'010 700 555 92', callDisplay:'010 700 555 79', deliveryFee:25},
+];
+
+// ================= Customer / account state =================
+// IMPORTANT: this site has no real backend yet, so nothing here is verified
+// or persisted anywhere — it only lives in memory for this page visit and is
+// lost on refresh. "Codes" typed in aren't checked against the pharmacy's
+// real customer system, and "new" codes generated here are provisional
+// placeholders for staff to confirm manually. When a real backend exists,
+// swap generateDemoCode()/the in-memory `customer` object for real API calls
+// and the rest of the flow (drawer UI, message building) stays the same.
+let customer = null; // { mode:'code', code } | { mode:'new', name, phone, address, demoCode } | { mode:'guest', address }
+
+function generateDemoCode(){
+  return String(Math.floor(1000 + Math.random() * 9000));
+}
+
+let selectedBranch = branches[0].id;
+let activeCat = 'all';
+let searchQuery = '';
+let cart = {}; // productId -> qty
+
+/* ================= Rendering ================= */
+function t(key){ return i18n[lang][key] || key; }
+
+// Wrap any Latin-digit strings (phone numbers, prices) so they always render
+// left-to-right even inside Arabic (RTL) text — prevents the bidi algorithm
+// from reordering space-separated digit groups.
+function ltr(str){ return `<bdi style="direction:ltr;unicode-bidi:embed;">${str}</bdi>`; }
+
+// Product names show in English by default, regardless of site language —
+// except items flagged arabicOnly: true, which are only ever branded/printed
+// in Arabic in real life (no official English name exists), so those always
+// display in Arabic. Search still matches typed Arabic or English against
+// both fields either way (see matchesSearch).
+function displayName(p){ return p.arabicOnly ? p.ar : p.en; }
+
+function applyStaticI18n(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.getElementById('langToggle').textContent = lang === 'ar' ? 'English' : 'عربي';
+}
+
+function renderBranches(){
+  const strip = document.getElementById('branchStrip');
+  const foot = document.getElementById('footBranches');
+  const branchesSection = document.getElementById('branches');
+  strip.innerHTML = '';
+  foot.innerHTML = '';
+  // keep only the section title, rebuild the rest
+  branchesSection.innerHTML = `<div class="section-title" data-i18n="navBranches" style="margin-top:0;">${t('navBranches')}</div>`;
+  const branchesGrid = document.createElement('div');
+  branchesGrid.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;';
+  branchesSection.appendChild(branchesGrid);
+  const unverified = document.createElement('div');
+  unverified.className = 'unverified-note';
+  unverified.textContent = t('unverifiedNumbers');
+  branchesSection.appendChild(unverified);
+
+  branches.forEach(b=>{
+    // selector card (used for cart's WhatsApp order target)
+    const card = document.createElement('div');
+    card.className = 'branch-card' + (selectedBranch === b.id ? ' active' : '');
+    card.innerHTML = `<h4><span class="radio"></span>${t(b.nameKey)}</h4><p>${t(b.addrKey)}</p>`;
+    card.onclick = ()=>{ selectedBranch = b.id; renderBranches(); updateBranchNote(); };
+    strip.appendChild(card);
+
+    // footer summary
+    const fdiv = document.createElement('div');
+    fdiv.innerHTML = `<strong>${t(b.nameKey)}</strong><br>${t(b.addrKey)}<br>📱 ${ltr(b.waDisplay)} · ☎ ${ltr(b.callDisplay)}`;
+    foot.appendChild(fdiv);
+
+    // detailed branch contact card in the Branches section
+    const detailCard = document.createElement('div');
+    detailCard.style.cssText = 'flex:1 1 280px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);';
+    detailCard.innerHTML = `
+      <h4 style="margin:0 0 6px;color:var(--teal-dark);">${t(b.nameKey)}</h4>
+      <p style="margin:0 0 12px;font-size:0.85rem;color:var(--muted);line-height:1.6;">${t(b.addrKey)}</p>
+      <div class="branch-actions">
+        <a class="branch-action-btn wa" href="https://wa.me/${b.waPhone}" target="_blank">📲 ${t('orderWhatsapp')} (${ltr(b.waDisplay)})</a>
+        <a class="branch-action-btn call" href="tel:+${b.callPhone}">☎ ${t('callBranch')} (${ltr(b.callDisplay)})</a>
+      </div>
+    `;
+    branchesGrid.appendChild(detailCard);
+  });
+}
+
+function renderCategories(){
+  const scroll = document.getElementById('catScroll');
+  scroll.innerHTML = '';
+  const allChip = document.createElement('div');
+  allChip.className = 'cat-chip' + (activeCat==='all' ? ' active':'');
+  allChip.textContent = t('all');
+  allChip.onclick = ()=>{ activeCat='all'; renderCategories(); renderProducts(); };
+  scroll.appendChild(allChip);
+  categories.forEach(c=>{
+    const chip = document.createElement('div');
+    chip.className = 'cat-chip' + (activeCat===c.id ? ' active':'');
+    chip.textContent = lang==='ar' ? c.ar : c.en;
+    chip.onclick = ()=>{ activeCat=c.id; renderCategories(); renderProducts(); };
+    scroll.appendChild(chip);
+  });
+}
+
+function renderCatQuickGrid(){
+  const grid = document.getElementById('catQuickGrid');
+  grid.innerHTML = '';
+  categories.forEach(c=>{
+    const card = document.createElement('div');
+    card.className = 'cat-quick-card';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `
+      <div class="cat-quick-icon">${categoryVisual(c.id, '26px')}</div>
+      <div class="cat-quick-label">${lang==='ar' ? c.ar : c.en}</div>
+    `;
+    card.addEventListener('click', ()=>{
+      activeCat = c.id;
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('heroSearchInput').value = '';
+      renderCategories();
+      renderProducts();
+      showPage('shop');
+    });
+    grid.appendChild(card);
+  });
+}
+
+function goToShopWithSearch(query){
+  searchQuery = query;
+  activeCat = 'all';
+  document.getElementById('searchInput').value = query;
+  document.getElementById('heroSearchInput').value = query;
+  renderCategories();
+  renderProducts();
+  showPage('shop');
+}
+
+function matchesSearch(p, q){
+  if(!q) return true;
+  const query = q.trim().toLowerCase();
+  return p.ar.toLowerCase().includes(query) || p.en.toLowerCase().includes(query);
+}
+
+function renderProducts(){
+  const grid = document.getElementById('productGrid');
+  const noResults = document.getElementById('noResults');
+  grid.innerHTML = '';
+  const filtered = products.filter(p=>{
+    const catOk = activeCat === 'all' || p.cat === activeCat;
+    const searchOk = matchesSearch(p, searchQuery);
+    return catOk && searchOk;
+  });
+
+  if(filtered.length === 0){
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+
+  filtered.forEach(p=>{
+    const name = displayName(p);
+    const qty = cart[p.id] || 0;
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    let stockBadge, actionHtml;
+
+    if(p.rx){
+      stockBadge = `<span class="stock-badge rx-badge">${t('rxRequired')}</span>`;
+      actionHtml = `<div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">${t('visitPharmacy')}</div>`;
+    } else if(!p.stock){
+      stockBadge = `<span class="stock-badge stock-no">${t('outOfStock')}</span>`;
+      actionHtml = `<button class="add-btn" disabled>${t('add')}</button>`;
+    } else {
+      stockBadge = `<span class="stock-badge stock-yes">${t('inStock')}</span>`;
+      if(qty > 0){
+        actionHtml = `<div class="qty-row">
+            <button class="qty-btn" data-action="qty" data-id="${p.id}" data-delta="-1">−</button>
+            <span>${qty}</span>
+            <button class="qty-btn" data-action="qty" data-id="${p.id}" data-delta="1">+</button>
+          </div>`;
+      } else {
+        actionHtml = `<button class="add-btn" data-action="qty" data-id="${p.id}" data-delta="1">${t('add')}</button>`;
+      }
+    }
+
+    card.innerHTML = `
+      <div class="product-icon">${productVisualHtml(p, '38px')}</div>
+      ${stockBadge}
+      <div class="product-name">${name}</div>
+      <div class="price-row">
+        <span class="price">${ltr(p.price + ' ' + t('egp'))}</span>
+      </div>
+      ${actionHtml}
+    `;
+    grid.appendChild(card);
+  });
+  attachImageFallbacks(grid);
+}
+
+function changeQty(id, delta){
+  const current = cart[id] || 0;
+  const next = Math.max(0, current + delta);
+  if(next === 0) delete cart[id];
+  else cart[id] = next;
+  renderProducts();
+  renderCart();
+}
+
+function renderCart(){
+  const itemsEl = document.getElementById('cartItems');
+  const totalEl = document.getElementById('cartTotal');
+  const countEl = document.getElementById('cartCount');
+  const waBtn = document.getElementById('waOrderBtn');
+  itemsEl.innerHTML = '';
+  let total = 0;
+  let count = 0;
+  const ids = Object.keys(cart);
+
+  if(ids.length === 0){
+    itemsEl.innerHTML = `<div class="cart-empty">🛒<br><br>${t('cartEmpty')}</div>`;
+    waBtn.disabled = true;
+  } else {
+    waBtn.disabled = false;
+    ids.forEach(id=>{
+      const p = products.find(pp=>pp.id===id);
+      const qty = cart[id];
+      total += p.price * qty;
+      count += qty;
+      const name = displayName(p);
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
+        <div class="cart-item-icon">${productVisualHtml(p, '20px')}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${name}</div>
+          <div class="cart-item-price">${ltr(p.price + ' ' + t('egp') + ' × ' + qty + ' = ' + (p.price*qty) + ' ' + t('egp'))}</div>
+          <button class="remove-link" data-action="remove" data-id="${id}">${t('remove')}</button>
+        </div>
+        <div class="qty-row">
+          <button class="qty-btn" data-action="qty" data-id="${id}" data-delta="-1">−</button>
+          <span>${qty}</span>
+          <button class="qty-btn" data-action="qty" data-id="${id}" data-delta="1">+</button>
+        </div>
+      `;
+      itemsEl.appendChild(row);
+    });
+    attachImageFallbacks(itemsEl);
+  }
+
+  const branch = branches.find(bb=>bb.id===selectedBranch);
+  const deliveryFee = branch.deliveryFee;
+  const grandTotal = ids.length === 0 ? 0 : total + deliveryFee;
+  document.getElementById('cartSubtotal').innerHTML = ltr(`${total} <span>${t('egp')}</span>`);
+  document.getElementById('cartDeliveryFee').innerHTML = ltr(`${deliveryFee} <span>${t('egp')}</span>`);
+  totalEl.innerHTML = ltr(`${grandTotal} <span>${t('egp')}</span>`);
+  if(count > 0){
+    countEl.style.display = 'flex';
+    countEl.textContent = count;
+  } else {
+    countEl.style.display = 'none';
+  }
+  updateBranchNote();
+  renderAccountSummary();
+}
+
+function renderAccountSummary(){
+  const el = document.getElementById('accountSummary');
+  const label = document.getElementById('accountBtnLabel');
+  if(!customer){
+    el.textContent = '';
+    label.textContent = t('accountGuestLabel');
+    return;
+  }
+  if(customer.mode === 'code'){
+    el.textContent = `${t('accountLabelCode')}: ${customer.code}`;
+    label.textContent = `${t('accountLabelCode')}: ${customer.code}`;
+  } else if(customer.mode === 'new'){
+    el.textContent = `${t('accountLabelCode')}: ${customer.demoCode} — ${customer.name}`;
+    label.textContent = `${t('accountLabelCode')}: ${customer.demoCode}`;
+  } else if(customer.mode === 'guest'){
+    el.textContent = `${t('accountLabelGuest')} — ${customer.address}`;
+    label.textContent = t('accountLabelGuest');
+  }
+}
+
+function removeItem(id){
+  delete cart[id];
+  renderProducts();
+  renderCart();
+}
+
+function updateBranchNote(){
+  const note = document.getElementById('branchNote');
+  const b = branches.find(bb=>bb.id===selectedBranch);
+  note.textContent = (lang==='ar' ? 'سيتم إرسال الطلب إلى: ' : 'Order will be sent to: ') + t(b.nameKey);
+}
+
+function buildWhatsappMessage(){
+  // The WhatsApp message itself is always written in Arabic (that's how the
+  // pharmacy communicates), regardless of which language the site UI is
+  // currently showing — but medicine names always stay in English within it,
+  // since that's how products are usually labeled/packaged. Per-item prices
+  // are intentionally left out — only the final total (items + delivery) is
+  // shown, matching what the cart displays.
+  const ar = i18n.ar;
+  const b = branches.find(bb=>bb.id===selectedBranch);
+  const lines = [];
+  lines.push(`${ar.waMsgIntro} ${ar[b.nameKey]}:`);
+  lines.push('');
+
+  // Customer / delivery info block
+  if(customer){
+    if(customer.mode === 'code'){
+      lines.push(`${ar.waMsgCustomerCode}: ${customer.code}`);
+    } else if(customer.mode === 'new'){
+      lines.push(`${ar.waMsgNewCustomer} — ${ar.waMsgProvisionalCode}: ${customer.demoCode}`);
+      lines.push(`${ar.waMsgName}: ${customer.name}`);
+      lines.push(`${ar.waMsgPhone}: ${customer.phone}`);
+      lines.push(`${ar.waMsgAddress}: ${customer.address}`);
+    } else if(customer.mode === 'guest'){
+      lines.push(`${ar.waMsgGuestLabel}`);
+      lines.push(`${ar.waMsgAddress}: ${customer.address}`);
+    }
+    lines.push('');
+  }
+
+  let total = 0;
+  Object.keys(cart).forEach(id=>{
+    const p = products.find(pp=>pp.id===id);
+    const qty = cart[id];
+    total += p.price * qty;
+    lines.push(`• ${displayName(p)} x${qty}`);
+  });
+  lines.push('');
+  lines.push(`${ar.waMsgDelivery}: ${b.deliveryFee} ${ar.egp}`);
+  lines.push(`${ar.waMsgFinalTotal}: ${total + b.deliveryFee} ${ar.egp}`);
+  lines.push(ar.waMsgConfirm);
+  return { text: lines.join('\n'), phone: b.waPhone };
+}
+
+// Page navigation is fully JS-driven (no URL hash / anchor links), since
+// hash-based anchors don't reliably work when this page is embedded inside
+// a sandboxed preview wrapper. Only one .page section is visible at a time.
+function showPage(id){
+  document.querySelectorAll('.page').forEach(el=>{
+    el.classList.toggle('active', el.id === id);
+  });
+  document.querySelectorAll('.nav-link').forEach(btn=>{
+    btn.classList.toggle('active', btn.getAttribute('data-nav') === id);
+  });
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+/* ================= Cart / Account drawer open/close ================= */
+// Both drawers share one overlay; only one drawer is ever open at a time.
+function openCart(){
+  document.getElementById('accountDrawer').classList.remove('show');
+  document.getElementById('cartDrawer').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeCart(){
+  document.getElementById('cartDrawer').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+}
+function openAccount(){
+  document.getElementById('cartDrawer').classList.remove('show');
+  document.getElementById('accountDrawer').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeAccount(){
+  document.getElementById('accountDrawer').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+  // Manually closing (X, overlay click) cancels any pending return-to-cart —
+  // only an actual successful submission (see finishAccountFlow) should
+  // trigger that.
+  pendingCheckout = false;
+}
+// Set right before openAccount() is called *because* someone tried to check
+// out without delivery info yet — see waOrderBtn handler below. When true,
+// finishing the account form re-opens the cart automatically instead of
+// leaving the customer with no drawer open at all (which read as broken).
+let pendingCheckout = false;
+function finishAccountFlow(){
+  const wasPending = pendingCheckout;
+  closeAccount();
+  if(wasPending) openCart();
+}
+function switchAccountTab(tabName){
+  document.querySelectorAll('.account-tab').forEach(el=>{
+    el.classList.toggle('active', el.getAttribute('data-tab') === tabName);
+  });
+  document.querySelectorAll('.account-panel').forEach(el=>{
+    el.classList.toggle('active', el.id === 'panel-' + tabName);
+  });
+  document.getElementById('accountStatus').style.display = 'none';
+}
+function showAccountStatus(mainText, subText){
+  const el = document.getElementById('accountStatus');
+  el.style.display = 'block';
+  el.innerHTML = subText ? `<strong>${mainText}</strong><br>${subText}` : `<strong>${mainText}</strong>`;
+}
+
+/* ================= Events ================= */
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('closeCart').onclick = closeCart;
+document.getElementById('accountBtn').onclick = openAccount;
+document.getElementById('closeAccount').onclick = closeAccount;
+document.getElementById('overlay').onclick = ()=>{ closeCart(); closeAccount(); };
+
+document.querySelectorAll('.account-tab').forEach(tabBtn=>{
+  tabBtn.addEventListener('click', ()=> switchAccountTab(tabBtn.getAttribute('data-tab')));
+});
+
+document.getElementById('submitCode').onclick = ()=>{
+  const code = document.getElementById('inputCode').value.trim();
+  if(!code){ showAccountStatus(t('fillRequiredFields')); return; }
+  customer = { mode:'code', code };
+  showAccountStatus(t('statusCodeSet') + ': ' + code);
+  renderAccountSummary();
+  setTimeout(finishAccountFlow, 900);
+};
+
+document.getElementById('submitNew').onclick = ()=>{
+  const name = document.getElementById('inputName').value.trim();
+  const phone = document.getElementById('inputPhone').value.trim();
+  const address = document.getElementById('inputNewAddress').value.trim();
+  if(!name || !phone || !address){ showAccountStatus(t('fillRequiredFields')); return; }
+  const demoCode = generateDemoCode();
+  customer = { mode:'new', name, phone, address, demoCode };
+  showAccountStatus(t('statusNewSet') + ': ' + demoCode, t('statusNewNote'));
+  renderAccountSummary();
+  setTimeout(finishAccountFlow, 1400);
+};
+
+document.getElementById('submitGuest').onclick = ()=>{
+  const address = document.getElementById('inputGuestAddress').value.trim();
+  if(!address){ showAccountStatus(t('fillRequiredFields')); return; }
+  customer = { mode:'guest', address };
+  showAccountStatus(t('statusGuestSet'));
+  renderAccountSummary();
+  setTimeout(finishAccountFlow, 900);
+};
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  searchQuery = e.target.value;
+  renderProducts();
+});
+document.getElementById('langToggle').onclick = ()=>{
+  lang = lang === 'ar' ? 'en' : 'ar';
+  applyStaticI18n();
+  renderBranches();
+  renderCategories();
+  renderCatQuickGrid();
+  renderProducts();
+  renderCart();
+};
+document.getElementById('heroSearchBtn').onclick = ()=> goToShopWithSearch(document.getElementById('heroSearchInput').value);
+document.getElementById('heroSearchInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') goToShopWithSearch(e.target.value);
+});
+document.getElementById('waOrderBtn').onclick = ()=>{
+  if(!customer){
+    // Require delivery info before an order can be sent — open the account
+    // drawer instead of sending, with a note explaining why. Mark this as a
+    // pending checkout so finishing the form returns straight to the cart.
+    pendingCheckout = true;
+    openAccount();
+    showAccountStatus(t('needInfoFirst'));
+    return;
+  }
+  const { text, phone } = buildWhatsappMessage();
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+};
+document.getElementById('heroShopBtn').onclick = ()=> showPage('shop');
+document.getElementById('heroBranchesBtn').onclick = ()=> showPage('branches');
+
+document.querySelectorAll('.nav-link').forEach(btn=>{
+  btn.addEventListener('click', ()=> showPage(btn.getAttribute('data-nav')));
+});
+
+// Event delegation for dynamically-rendered product/cart buttons
+// (avoids inline onclick="" attributes, which sandboxed previews can block)
+document.getElementById('productGrid').addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-action]');
+  if(!btn) return;
+  const id = btn.getAttribute('data-id');
+  if(btn.getAttribute('data-action') === 'qty'){
+    changeQty(id, parseInt(btn.getAttribute('data-delta'), 10));
+  }
+});
+document.getElementById('cartItems').addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-action]');
+  if(!btn) return;
+  const id = btn.getAttribute('data-id');
+  const action = btn.getAttribute('data-action');
+  if(action === 'qty'){
+    changeQty(id, parseInt(btn.getAttribute('data-delta'), 10));
+  } else if(action === 'remove'){
+    removeItem(id);
+  }
+});
+
+/* ================= Init ================= */
+applyStaticI18n();
+renderBranches();
+renderCategories();
+renderCatQuickGrid();
+renderProducts();
+renderCart();
+showPage('home');
+</script>
+
+</body>
+</html>
